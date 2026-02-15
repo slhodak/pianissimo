@@ -1,5 +1,6 @@
 import json
 import os
+import random
 from datetime import date
 
 import click
@@ -34,9 +35,9 @@ def main(output_dir: str):
     click.echo(f"\nGenerating drill...")
     score = generate_drill(spec)
 
-    today = date.today().isoformat()
-    slug = "".join(c if c.isalnum() or c == "-" else "-" for c in description[:30].lower()).strip("-")
-    base_name = f"{today}-{slug}"
+    today = date.today().strftime("%y-%m-%d")
+    digits = f"{random.randint(0, 999999):06d}"
+    base_name = f"{today}-{digits}"
     os.makedirs(output_dir, exist_ok=True)
 
     pdf_path = os.path.join(output_dir, f"{base_name}.pdf")

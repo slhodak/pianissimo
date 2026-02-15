@@ -10,7 +10,7 @@ from music21 import (
     stream,
 )
 
-from pianissimo.drill_spec import DrillSpec
+from pianissimo.drill_spec import DrillSpec, DEFAULT_RANGE_TREBLE, DEFAULT_RANGE_BASS
 
 RHYTHM_TO_QUARTER_LENGTH = {
     "whole": 4.0,
@@ -62,13 +62,16 @@ def _generate_part(spec: DrillSpec, clef_name: str, hand: str) -> stream.Part:
     rhythm_qls = [RHYTHM_TO_QUARTER_LENGTH[r] for r in spec.rhythms]
 
     ks = m21key.KeySignature(key_obj.sharps)
-    part.insert(0, clef_obj)
-    part.insert(0, ks)
-    part.insert(0, ts)
 
     prev_pitch = None
     for m_num in range(spec.measures):
         measure = stream.Measure(number=m_num + 1)
+
+        # Insert clef, key signature, and time signature into the first measure
+        if m_num == 0:
+            measure.insert(0, clef_obj)
+            measure.insert(0, ks)
+            measure.insert(0, ts)
 
         remaining = ql_per_measure
         while remaining > 0.001:
@@ -96,14 +99,14 @@ def generate_drill(spec: DrillSpec) -> stream.Score:
     if spec.clef == "grand" or spec.hands == "both":
         right_spec = DrillSpec(
             clef="grand", key=spec.key,
-            note_range=spec.note_range if spec.note_range != ("C4", "C6") else ("C4", "C6"),
+            note_range=spec.note_range if spec.note_range != DEFAULT_RANGE_TREBLE else DEFAULT_RANGE_TREBLE,
             rhythms=spec.rhythms, time_signature=spec.time_signature,
             measures=spec.measures, hands="right", rests=spec.rests,
             max_interval=spec.max_interval,
         )
         left_spec = DrillSpec(
             clef="grand", key=spec.key,
-            note_range=spec.note_range if spec.note_range != ("C4", "C6") else ("C2", "B3"),
+            note_range=spec.note_range if spec.note_range != DEFAULT_RANGE_TREBLE else DEFAULT_RANGE_BASS,
             rhythms=spec.rhythms, time_signature=spec.time_signature,
             measures=spec.measures, hands="left", rests=spec.rests,
             max_interval=spec.max_interval,

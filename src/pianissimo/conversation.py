@@ -32,9 +32,12 @@ The student will describe a difficulty they're having. Your job is to:
 The drill spec schema:
 {schema_text}
 
-When you're ready to generate, output EXACTLY one ```json``` code block containing the drill spec. Only include fields that differ from defaults. The defaults are: clef=treble, note_range=[C4,C6], rhythms=[quarter], time_signature=4/4, measures=8, hands=right, rests=false, max_interval=5.
+When you're ready to generate, output EXACTLY one ```json``` code block containing the drill spec. Only include fields that differ from defaults. The defaults are: clef=treble, rhythms=[quarter], time_signature=4/4, measures=8, hands=right, rests=false, max_interval=5. The note_range defaults depend on clef: treble=[C4,C6], bass=[C2,C4]. You can omit note_range to use the clef-appropriate default, or specify it explicitly.
 
-Keep responses short and warm. You're a teacher, not a textbook."""
+Keep responses short and warm. You're a teacher, not a textbook.
+
+Please omit markdown formatting of any kind. Responses will be rendered in a terminal, not a markdown reader.
+"""
 
 
 def parse_drill_spec_from_response(response: str) -> Optional[DrillSpec]:
