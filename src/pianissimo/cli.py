@@ -1,9 +1,11 @@
 import json
 import os
 from datetime import date
-from typing import Optional
 
 import click
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from pianissimo.conversation import run_conversation
 from pianissimo.drill_spec import DrillSpec
@@ -12,21 +14,19 @@ from pianissimo.renderer import render_to_pdf, check_lilypond
 
 
 @click.command()
-@click.argument("description", required=False)
 @click.option("--output-dir", default="drills", help="Directory to save generated drills")
-def main(description: Optional[str], output_dir: str):
-    """Pianissimo — a sight-reading drill generator.
-
-    Describe your difficulty and get a personalized practice sheet.
-    """
+def main(output_dir: str):
+    """Pianissimo — a sight-reading drill generator."""
     try:
         check_lilypond()
     except RuntimeError as e:
         click.echo(str(e), err=True)
         raise SystemExit(1)
 
+    click.echo("Welcome to Pianissimo! How can I help you practice sight-reading today?")
+    description = click.prompt(">")
     if not description:
-        description = click.prompt("What are you struggling with?")
+        description = click.prompt(">")
 
     click.echo(f"Let me think about that...")
     spec = run_conversation(description)
@@ -35,7 +35,7 @@ def main(description: Optional[str], output_dir: str):
     score = generate_drill(spec)
 
     today = date.today().isoformat()
-    slug = description[:30].lower().replace(" ", "-").strip("-")
+    slug = "".join(c if c.isalnum() or c == "-" else "-" for c in description[:30].lower()).strip("-")
     base_name = f"{today}-{slug}"
     os.makedirs(output_dir, exist_ok=True)
 

@@ -1,0 +1,18 @@
+{
+  "clef": "bass",
+  "key": "Ab major",
+  "note_range": [
+    "A2",
+    "G3"
+  ],
+  "rhythms": [
+    "half",
+    "quarter",
+    "eighth"
+  ],
+  "time_signature": "4/4",
+  "measures": 8,
+  "hands": "left",
+  "rests": false,
+  "max_interval": 5
+}

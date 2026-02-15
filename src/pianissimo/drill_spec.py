@@ -7,8 +7,8 @@ VALID_HANDS = ("right", "left", "both")
 
 @dataclass
 class DrillSpec:
-    clef: str
-    key: str
+    clef: str = "treble"
+    key: str = "C major"
     note_range: tuple[str, str] = ("C4", "C6")
     rhythms: list[str] = field(default_factory=lambda: ["quarter"])
     time_signature: str = "4/4"

@@ -44,7 +44,8 @@ def parse_drill_spec_from_response(response: str) -> Optional[DrillSpec]:
     try:
         data = json.loads(match.group(1))
         return DrillSpec.from_dict(data)
-    except (json.JSONDecodeError, ValueError, TypeError):
+    except (json.JSONDecodeError, ValueError, TypeError) as e:
+        print(f"[Warning: could not parse drill spec: {e}]")
         return None
 
 

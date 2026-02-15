@@ -1,0 +1,16 @@
+{
+  "clef": "bass",
+  "key": "C major",
+  "note_range": [
+    "F2",
+    "D3"
+  ],
+  "rhythms": [
+    "quarter"
+  ],
+  "time_signature": "4/4",
+  "measures": 8,
+  "hands": "left",
+  "rests": false,
+  "max_interval": 5
+}
