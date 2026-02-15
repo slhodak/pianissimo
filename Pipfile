@@ -4,8 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+music21 = "*"
+click = "*"
+anthropic = "*"
 
 [dev-packages]
+pytest = "*"
 
 [requires]
 python_version = "3.13"
